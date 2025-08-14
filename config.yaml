@@ -1,0 +1,52 @@
+# Paths
+data:
+  trips_parquet_path: "data/yellow_tripdata_2024-01.parquet"
+  weather_csv_path: "data/weather_hourly_nyc.csv"   # columns: timestamp, precip_mm, temp_c
+  zones_lookup_csv_path: null                        # optional TLC zones lookup
+output_dir: "outputs"
+
+# Sampling (for quick iterations)
+sample_n_rows: null  # e.g., 1000000 to limit in-memory
+
+# Cleaning thresholds
+filters:
+  max_fare: 200.0
+  min_distance: 0.0
+  min_passengers: 1
+
+# Clustering
+clustering:
+  n_clusters: 5
+  random_state: 42
+
+# Prophet
+prophet:
+  changepoint_prior_scale: 0.1
+  seasonality_prior_scale: 10.0
+  daily_seasonality: true
+  weekly_seasonality: true
+  # time split for Jan 2024
+  train_end: "2024-01-24 23:59:59"
+  test_end: "2024-01-31 23:59:59"
+
+# Regression models
+regression:
+  test_size: 0.3
+  random_state: 42
+  cv_folds: 5
+
+  xgboost:
+    n_estimators: 200
+    max_depth: 6
+    learning_rate: 0.05
+    subsample: 0.9
+    colsample_bytree: 0.9
+
+  random_forest:
+    n_estimators: 250
+    max_depth: 15
+    min_samples_split: 2
+
+# Thresholds
+thresholds:
+  heavy_rain_mm: 5.0
